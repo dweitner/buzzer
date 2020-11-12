@@ -3,6 +3,9 @@
 
 import axios from "axios";
 export async function handler(event, context) {
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
+  }
   try {
     const response = await axios.post("http://74.71.87.249/open");
     const data = response.data;
