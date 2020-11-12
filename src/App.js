@@ -24,24 +24,15 @@ function App() {
       });
   }
 
-  function getButtonText(status) {
-    if (status === LOADING) {
-      return "Loading...";
-    } else if (status === LOCKED || status === UNLOCKED || status === ERROR) {
-      return "Open";
-    } else {
-      return "Error";
-    }
-  }
-
   return (
     <div className="App">
       <header className="App-header">
         <img src={status === UNLOCKED ? ANIMATED_LOCK_URL : STATIC_LOCK_URL} alt="lock"></img>
         <Button style={{'min-width':'120px'}} variant="dark" size="lg" onClick={openDoor} disabled={status === LOADING}>
-          {getButtonText(status)}
+          {status === LOADING ? "Loading" : "Open"}
         </Button>
         <br />
+        <p>{status}</p>
         <span>{status === ERROR ? "Error: " + data : ""}</span>
       </header>
     </div>
