@@ -32,7 +32,6 @@ function App() {
           {status === LOADING ? "Loading" : "Open"}
         </Button>
         <br />
-        <p>{status}</p>
         <span>{status === ERROR ? "Error: " + data : ""}</span>
       </header>
     </div>
