@@ -38,9 +38,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={status === UNLOCKED ? ANIMATED_LOCK_URL : STATIC_LOCK_URL} alt="lock"></img>
-          <Button style={{'min-width':'120px'}} variant="dark" onClick={openDoor} disabled={status === LOADING}>
-            {getButtonText(status)}
-          </Button>
+        <Button style={{'min-width':'120px'}} variant="dark" size="lg" onClick={openDoor} disabled={status === LOADING}>
+          {getButtonText(status)}
+        </Button>
         <br />
         <span>{status === ERROR ? "Error: " + data : ""}</span>
       </header>
