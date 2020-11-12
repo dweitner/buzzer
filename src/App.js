@@ -7,7 +7,7 @@ function LambdaDemo() {
 
   function openDoor() {
     setIsLoading(true);
-    fetch("/.netlify/functions/async-dadjoke")
+    fetch("/.netlify/functions/async-dadjoke", { method: "POST" })
       .then((response) => response.json())
       .then((data) => {
         setIsLoading(false);
@@ -31,9 +31,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          Click to open
-        </p>
+        <p>Click to open</p>
         <LambdaDemo />
       </header>
     </div>
