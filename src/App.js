@@ -1,38 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Button from 'react-bootstrap/Button';
 import "./App.css";
 
-function LambdaDemo() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState("");
+const LOCKED = "LOCKED";
+const UNLOCKED = "UNLOCKED";
+const ERROR = "ERROR";
+const LOADING = "LOADING";
+
+const ANIMATED_LOCK_URL = "https://i.imgur.com/sMGLv3d.gif";
+const STATIC_LOCK_URL = "https://i.imgur.com/35tUWu4.gif";
+
+function App() {
+  const [status, setStatus] = useState(LOCKED);
+  const [data, setData] = useState("_");
 
   function openDoor() {
-    setIsLoading(true);
-    fetch("/.netlify/functions/async-dadjoke", { method: "POST" })
+    setStatus(LOADING);
+    fetch("/.netlify/functions/open-door", { method: "POST" })
       .then((response) => response.json())
       .then((data) => {
-        setIsLoading(false);
-        console.log(data);
+        setStatus(data.isError ? ERROR : UNLOCKED);
         setData(data.msg);
       });
   }
 
-  return (
-    <p>
-      <button onClick={openDoor}>
-        {isLoading ? "Loading..." : "Call Async Lambda"}
-      </button>
-      <br />
-      <span>{data}</span>
-    </p>
-  );
-}
+  function getButtonText(status) {
+    if (status === LOADING) {
+      return "Loading...";
+    } else if (status === LOCKED || status === UNLOCKED || status === ERROR) {
+      return "Open";
+    } else {
+      return "Error";
+    }
+  }
 
-function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Click to open</p>
-        <LambdaDemo />
+        <img src={status === UNLOCKED ? ANIMATED_LOCK_URL : STATIC_LOCK_URL} alt="lock"></img>
+          <Button style={{'min-width':'120px'}} variant="dark" onClick={openDoor} disabled={status === LOADING}>
+            {getButtonText(status)}
+          </Button>
+        <br />
+        <span>{status === ERROR ? "Error: " + data : ""}</span>
       </header>
     </div>
   );
