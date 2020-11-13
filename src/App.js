@@ -12,16 +12,16 @@ const STATIC_LOCK_URL = "https://i.imgur.com/35tUWu4.gif";
 
 function App() {
   const [status, setStatus] = useState(LOCKED);
-  const [data] = useState("_");
+  const [data, setData] = useState("_");
   const [useAutoMode, setAutoMode] = useState(true);
 
   function openDoor() {
-    // setStatus(LOADING);
+    setStatus(LOADING);
     fetch("/.netlify/functions/open-door", { method: "POST" })
       .then((response) => response.json())
       .then((data) => {
         setStatus(data.isError ? ERROR : UNLOCKED);
-        // setData(data.msg);
+        setData(data.msg);
       });
   }
 
@@ -35,6 +35,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+      <div class="container">
+        <span class={status === UNLOCKED ? "lock unlocked" : "lock"}></span>
+      </div>
         <img
           src={status === UNLOCKED ? ANIMATED_LOCK_URL : STATIC_LOCK_URL}
           alt="lock"
