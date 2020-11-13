@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 const LOCKED = "LOCKED";
@@ -7,13 +6,22 @@ const UNLOCKED = "UNLOCKED";
 const ERROR = "ERROR";
 const LOADING = "LOADING";
 
-const ANIMATED_LOCK_URL = "https://i.imgur.com/sMGLv3d.gif";
-const STATIC_LOCK_URL = "https://i.imgur.com/35tUWu4.gif";
-
 function App() {
   const [status, setStatus] = useState(LOCKED);
   const [data, setData] = useState("_");
   const [useAutoMode, setAutoMode] = useState(true);
+
+  useEffect(
+    () => {
+      if (status === UNLOCKED) {
+        let timer = setTimeout(() => setStatus(LOCKED), 3000);
+        return () => {
+          clearTimeout(timer);
+        };
+      }
+    },
+    [status]
+  );
 
   function openDoor() {
     setStatus(LOADING);
@@ -35,22 +43,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-      <div class="container">
-        <span class={status === UNLOCKED ? "lock unlocked" : "lock"}></span>
-      </div>
-        <img
-          src={status === UNLOCKED ? ANIMATED_LOCK_URL : STATIC_LOCK_URL}
-          alt="lock"
-        ></img>
-        <Button
-          style={{ minWidth: "120px" }}
-          variant="dark"
-          size="lg"
-          onClick={openDoor}
-          disabled={status === LOADING}
-        >
-          {status === LOADING ? "Loading" : "Open"}
-        </Button>
+        <div class="container">
+          <span class={status === UNLOCKED ? "lock unlocked" : "lock"}></span>
+        </div>
+        <button class="btn" onClick={openDoor}>
+          <strong>{status === LOADING ? "Loading" : "Open"}</strong>
+        </button>
         <br />
         <span>{status === ERROR ? "Error: " + data : ""}</span>
       </header>
