@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import Div100vh from "react-div-100vh";
 
 const LOCKED = "LOCKED";
 const UNLOCKED = "UNLOCKED";
@@ -11,17 +12,14 @@ function App() {
   const [data, setData] = useState("_");
   const [useAutoMode, setAutoMode] = useState(true);
 
-  useEffect(
-    () => {
-      if (status === UNLOCKED) {
-        let timer = setTimeout(() => setStatus(LOCKED), 3000);
-        return () => {
-          clearTimeout(timer);
-        };
-      }
-    },
-    [status]
-  );
+  useEffect(() => {
+    if (status === UNLOCKED) {
+      let timer = setTimeout(() => setStatus(LOCKED), 3000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [status]);
 
   function openDoor() {
     setStatus(LOADING);
@@ -41,18 +39,26 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <header class={status === UNLOCKED ? "App-header unlocked-background" : "App-header"}>
-        <div class="container">
-          <span class={status === UNLOCKED ? "lock unlocked" : "lock"}></span>
-        </div>
-        <button class="btn" onClick={openDoor}>
-          <strong>{status === LOADING ? "Loading" : "Open"}</strong>
-        </button>
-        <br />
-        <span>{status === ERROR ? "Error: " + data : ""}</span>
-      </header>
-    </div>
+    <Div100vh>
+      <div className="App">
+        <header
+          class={
+            status === UNLOCKED
+              ? "App-header unlocked-background"
+              : "App-header"
+          }
+        >
+          <div className="container">
+            <span class={status === UNLOCKED ? "lock unlocked" : "lock"}></span>
+          </div>
+          <button class="btn" onClick={openDoor}>
+            <strong>{status === LOADING ? "Loading" : "Open"}</strong>
+          </button>
+          <br />
+          <span>{status === ERROR ? "Error: " + data : ""}</span>
+        </header>
+      </div>
+    </Div100vh>
   );
 }
 
