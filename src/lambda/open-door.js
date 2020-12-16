@@ -5,7 +5,8 @@ export async function handler(event, context) {
   }
 
   try {
-    const response = await axios.post("http://74.71.87.249/open");
+    // const response = await axios.post("http://74.71.87.249/open");
+    const response = {data:"abc", status:200};
     const data = response.data;
     return {
       statusCode: response.status,

@@ -42,7 +42,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header class={status === UNLOCKED ? "App-header unlocked-background" : "App-header"}>
         <div class="container">
           <span class={status === UNLOCKED ? "lock unlocked" : "lock"}></span>
         </div>
